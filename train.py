@@ -29,10 +29,10 @@ def train(opt):
     model.train()
 
     train_dataset = NetworkFlowDataset('Thursday-WorkingHours.pcap', 'Thursday-WorkingHours-Morning-WebAttacks.pcap_ISCX.csv')
-    train_data_loader = CIFAR10Dataloader(opt, train_dataset)
+    train_data_loader = NetworkFlowDataloader(opt, train_dataset)
 
     test_dataset = NetworkFlowDataset('Friday-WorkingHours.pcap', 'Friday-WorkingHours-Morning.pcap_ISCX.csv')
-    test_data_loader = CIFAR10Dataloader(opt, test_dataset)
+    test_data_loader = NetworkFlowDataloader(opt, test_dataset)
 
     optim = torch.optim.Adam(model.parameters(), lr=0.001)
 
@@ -67,10 +67,10 @@ def train(opt):
                 total_test = 0
                 correct_test = 0
                 for i in range(len(test_data_loader.data_loader)):
-                    image, label = test_data_loader.next_batch()
-                    image = image.cuda()
+                    flow, label = test_data_loader.next_batch()
+                    flow = flow.cuda()
                     label = label.cuda()
-                    result = model(image)
+                    result = model(flow)
                     _, predicted = torch.max(result, 1)
                     total_test += label.size(0)
                     correct_test += (predicted == label).sum().item()

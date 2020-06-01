@@ -13,7 +13,7 @@ class NetworkFlowDataset(data.Dataset):
         super().__init__()
         self.pcap_data = rdpcap(osp.join('data',pcapname))
         self.label_data = pd.read_csv(osp.join('data', csvname), encoding='latin1')
-    
+
     def __len__(self):
         return len(self.pcap_data)
     
